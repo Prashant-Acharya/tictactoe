@@ -1,2 +1,0 @@
-.container{text-align:center}.display-center{display:flex;justify-content:center}.board{width:180px;height:180px;flex-wrap:wrap;justify-content:space-evenly;background-color:#000;user-select:none}.board,.boxes{border:1px solid #000;display:flex;align-items:center}.boxes{height:50px;width:50px;background-color:#fff;justify-content:center;font-size:30px}.boxes:hover{background-color:#ffffe0;cursor:pointer}
-/*# sourceMappingURL=/style.bcd9c87e.css.map */
