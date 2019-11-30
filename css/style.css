@@ -1,0 +1,36 @@
+.container {
+  text-align: center;
+}
+
+.display-center {
+  display: flex;
+  justify-content: center;
+}
+
+.board {
+  width: 180px;
+  height: 180px;
+  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: black;
+  user-select: none;
+}
+
+.boxes {
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.boxes:hover {
+  background-color: lightyellow;
+  cursor: pointer;
+}
