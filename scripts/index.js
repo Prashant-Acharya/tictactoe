@@ -77,8 +77,10 @@ function playerClick(index) {
   if (!boxes[index]) {
     boxes[index] = 'x';
     checkWinner();
-    if (boxes.filter(box => box === null).length > 0) {
-      cpuClick();
+    if (!winner && boxes.filter(box => box === null).length > 0) {
+      setTimeout(() => {
+        cpuClick();
+      }, 0);
     }
   }
   writeOnBoxes();
