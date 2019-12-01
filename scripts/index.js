@@ -14,6 +14,16 @@ const winningPatterns = [
   [2, 4, 6]
 ];
 
+function sweetAlert({ icon, title, text }) {
+  Swal.fire({
+    icon,
+    title,
+    text
+  }).then(() => {
+    window.location.reload();
+  });
+}
+
 function checkWinner() {
   winningPatterns.forEach(WP => {
     if (
@@ -23,32 +33,26 @@ function checkWinner() {
     ) {
       winner = true;
       if (boxes[WP[0]] == 'x') {
-        Swal.fire({
+        sweetAlert({
           icon: 'success',
           title: 'Congratulations',
           text: 'You win'
-        }).then(() => {
-          window.location.reload();
         });
       } else {
-        Swal.fire({
+        sweetAlert({
           icon: 'error',
           title: 'You loose.',
           text: 'Better Luck Next Time.'
-        }).then(() => {
-          window.location.reload();
         });
       }
     }
   });
 
   if (!winner && boxes.filter(box => box == null).length === 0) {
-    Swal.fire({
+    sweetAlert({
       icon: 'info',
       title: 'Draw',
       text: 'You failed to win, better luck next time.'
-    }).then(() => {
-      window.location.reload();
     });
   }
 
@@ -80,7 +84,7 @@ function playerClick(index) {
     if (!winner && boxes.filter(box => box === null).length > 0) {
       setTimeout(() => {
         cpuClick();
-      }, 0);
+      }, 100);
     }
   }
   writeOnBoxes();
