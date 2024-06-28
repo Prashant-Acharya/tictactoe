@@ -1,98 +1,76 @@
-let $ = selector => document.querySelector(selector);
-let $$ = selector => document.querySelectorAll(selector);
+let $ = (selector) => document.querySelector(selector);
+let $$ = (selector) => document.querySelectorAll(selector);
 
-let boxes = new Array(9).fill(null);
+let gameState = new Array(9).fill(null);
 let winner = false;
-const winningPatterns = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-];
 
 function sweetAlert({ icon, title, text }) {
   Swal.fire({
     icon,
     title,
-    text
+    text,
   }).then(() => {
     window.location.reload();
   });
 }
 
-function checkWinner() {
-  winningPatterns.forEach(WP => {
-    if (
-      boxes[WP[0]] != null &&
-      boxes[WP[0]] == boxes[WP[1]] &&
-      boxes[WP[1]] == boxes[WP[2]]
-    ) {
-      winner = true;
-      if (boxes[WP[0]] == 'x') {
-        sweetAlert({
-          icon: 'success',
-          title: 'Congratulations',
-          text: 'You win'
-        });
-      } else {
-        sweetAlert({
-          icon: 'error',
-          title: 'You loose.',
-          text: 'Better Luck Next Time.'
-        });
-      }
-    }
-  });
-
-  if (!winner && boxes.filter(box => box == null).length === 0) {
+function checkGameOver() {
+  if (isTerminalState(gameState) === "x") {
     sweetAlert({
-      icon: 'info',
-      title: 'Draw',
-      text: 'You failed to win, better luck next time.'
+      icon: "success",
+      title: "Congratulations",
+      text: "You win",
     });
   }
 
-  return 1;
+  if (isTerminalState(gameState) === "o") {
+    sweetAlert({
+      icon: "error",
+      title: "You loose.",
+      text: "Better Luck Next Time.",
+    });
+  }
+
+  if (isTerminalState(gameState) === "draw") {
+    sweetAlert({
+      icon: "info",
+      title: "Draw",
+      text: "You failed to win, better luck next time.",
+    });
+  }
 }
 
 function writeOnBoxes() {
-  $$('.boxes').forEach((box, index) => {
-    box.innerText = boxes[index];
+  $$(".boxes").forEach((box, index) => {
+    box.innerText = gameState[index];
   });
 }
 
 function cpuClick() {
-  while (true) {
-    let randomIndex = Math.floor(Math.random() * 9);
-    if (!boxes[randomIndex]) {
-      boxes[randomIndex] = 'o';
-      checkWinner();
-      break;
-    }
-  }
+  const bestMove = findBestMove(gameState);
+  gameState[bestMove] = "o";
+  checkGameOver();
+
   writeOnBoxes();
 }
 
 function playerClick(index) {
-  if (!boxes[index]) {
-    boxes[index] = 'x';
-    checkWinner();
-    if (!winner && boxes.filter(box => box === null).length > 0) {
+  if (!gameState[index]) {
+    gameState[index] = "x";
+    checkGameOver();
+    if (!winner && gameState.filter((box) => box === null).length > 0) {
       setTimeout(() => {
         cpuClick();
       }, 100);
     }
   }
+
   writeOnBoxes();
 }
 
 function clickHandler() {
-  $$('.boxes').forEach((box, index) =>
-    box.addEventListener('click', () => playerClick(index))
+  $$(".boxes").forEach((box, index) =>
+    box.addEventListener("click", () => playerClick(index))
   );
 }
 
